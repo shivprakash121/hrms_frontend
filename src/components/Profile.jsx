@@ -143,8 +143,7 @@ const EmployeeProfile = () => {
               {renderDetail("Total Salary", userDataList?.salary?.total || "---")}
             </div>
           </div>
-        );
-        
+        );  
       default:
         return null;
     }
