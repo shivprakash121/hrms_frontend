@@ -1,0 +1,56 @@
+/* Base styles for the alert */
+.custom-alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 15px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeInOut 3s ease;
+}
+
+/* Success alert */
+.custom-alert.success {
+  background-color: #28a745;
+}
+
+/* Error alert */
+.custom-alert.error {
+  background-color: #dc3545;
+}
+
+/* Warning alert */
+.custom-alert.warning {
+  background-color: #ffc107;
+  color: black;
+}
+
+/* Info alert */
+.custom-alert.info {
+  background-color: #17a2b8;
+}
+
+/* Fade-in and fade-out animation */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
