@@ -190,7 +190,7 @@ const EmployeeProfile = () => {
               {userDataList?.designation}
             </p>
           </div>
-
+          
           <div className="mt-6 space-y-4">
             <h3 className="font-semibold text-lg">Basic Information</h3>
             {loading
