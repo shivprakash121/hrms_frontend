@@ -1,11 +1,19 @@
 import React from "react";
 import logo from "../../src/assets/Icon/ddHealthcare.png"
+import { toWords } from 'number-to-words';
+import moment from 'moment';
 
 const NewPaySlip = ({ setPayslipModel, payslipModelData }) => {
     const generatePDF = () => {
         const element = document.getElementById("invoice");
         html2pdf().from(element).save();
     };
+
+    const toTitleCase = (str) =>
+    str.replace(/\w\S*/g, (txt) =>
+        txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase()
+    );
+    
     return (
         <>
             <div className="flex items-center justify-between mb-4">
@@ -35,22 +43,25 @@ const NewPaySlip = ({ setPayslipModel, payslipModelData }) => {
 
                 {/* Title */}
                 <div className="text-center font-semibold bg-gray-100 py-2 border-b border-gray-300">
-                    Payslip for the month of {payslipModelData?.pay_slip_month}
+                    Payslip for the month of <span className="font-bold"> {moment(payslipModelData?.pay_slip_month).format('MMMM YYYY')}</span>
                 </div>
 
                 {/* Employee Summary */}
                 <div className="flex justify-between border-b border-gray-300 p-4">
                     <div className="w-1/2">
                         <div className="text-sm text-gray-500 font-bold">Employee Net Pay</div>
-                        <div className="text-2xl font-bold text-black">₹{payslipModelData?.salary_details?.net_pay}</div>
+                        <div className="text-2xl font-bold text-black">₹{(Number(payslipModelData?.salary_details?.total_gross_salary) - (
+                            Number(payslipModelData?.salary_details?.transport_or_others) +
+                            Number(payslipModelData?.salary_details?.employee_pf) +
+                            Number(payslipModelData?.salary_details?.tds) +
+                            Number(payslipModelData?.salary_details?.employee_esi)+
+                            Number(payslipModelData?.salary_details?.loan_advance)
+                        ).toFixed(2))}</div>
                         <div className="text-sm">Paid Days : {payslipModelData?.leave_summary?.payable_days} | LOP Days : {payslipModelData?.leave_summary?.unpaid_days}</div>
                     </div>
                     <div className=" w-1/3 text-left">
-                        <div className="mb-1">
+                        <div className="mb-5">
                             <span className="font-bold ">Employee Name</span>: {payslipModelData?.employee_basic_details?.employee_name}
-                        </div>
-                        <div className="mb-1">
-                            <span className="font-bold">Designation</span>: {payslipModelData?.employee_basic_details?.designation}
                         </div>
                         <div className="mb-1">
                             <span className="font-bold">Employee Code</span>: DD-{payslipModelData?.employee_basic_details?.employee_code}
@@ -58,15 +69,18 @@ const NewPaySlip = ({ setPayslipModel, payslipModelData }) => {
 
                     </div>
                     <div className=" w-1/3 text-left">
+                        <div className="mb-5">
+                            <span className="font-bold">Designation</span>: {payslipModelData?.employee_basic_details?.designation}
+                        </div>
                         <div className="mb-1">
                             <span className="font-bold">Date of Joining</span>: {payslipModelData?.employee_basic_details?.date_of_joining}
                         </div>
-                        <div className="mb-1">
-                            <span className="font-bold">Pay Period</span>: December 2023
+                        {/* <div className="mb-1">
+                            <span className="font-bold">Pay Period</span>: {payslipModelData?.pay_slip_month}
                         </div>
                         <div>
                             <span className="font-bold">Pay Date</span>: 31/01/2024
-                        </div>
+                        </div> */}
                     </div>
 
                 </div>
@@ -117,7 +131,7 @@ const NewPaySlip = ({ setPayslipModel, payslipModelData }) => {
                     </div>
 
                     {/* Deductions Section */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 text-sm font-semibold border-t border-gray-300 pt-4 mt-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 text-sm font-semibold border-t border-gray-300 pt-4 mt-4">
                         <div>DEDUCTIONS</div>
                         <div>AMOUNT</div>
                     </div>
@@ -127,7 +141,7 @@ const NewPaySlip = ({ setPayslipModel, payslipModelData }) => {
                         { label: "Employee EPF", amount: payslipModelData?.salary_details?.employee_pf },
                         { label: "Employee TDS", amount: payslipModelData?.salary_details?.tds },
                         { label: "Employee ESI", amount: payslipModelData?.salary_details?.employee_esi },
-                        // { label: "Advance / Loan", amount: payslipModelData?.salary_details?.employee_esi },
+                        { label: "Advance / Loan", amount: payslipModelData?.salary_details?.loan_advance },
 
                     ].map((item, index) => (
                         <div key={index} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 py-1 border-b border-gray-100">
@@ -135,30 +149,70 @@ const NewPaySlip = ({ setPayslipModel, payslipModelData }) => {
                             <div>₹{item.amount}</div>
                         </div>
                     ))}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 py-2 font-semibold border-t border-gray-300 mt-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 py-2 font-semibold border-t border-gray-300 mt-1">
                         <div className="font-bold">Total Deductions</div>
-                        <div>₹{payslipModelData?.salary_details?.total_deduction}</div>
+                        <div>
+                        ₹{(
+                            Number(payslipModelData?.salary_details?.transport_or_others) +
+                            Number(payslipModelData?.salary_details?.employee_pf) +
+                            Number(payslipModelData?.salary_details?.tds) +
+                            Number(payslipModelData?.salary_details?.employee_esi)+
+                            Number(payslipModelData?.salary_details?.loan_advance)
+                        ).toFixed(2)}
+                        </div>
                     </div>
                 </div>
                 {/* Net Pay Section */}
                 <div className="border-t border-gray-300 p-4 text-sm">
-                    <div className="font-semibold mb-2">NET PAY</div>
+                    <div className="font-semibold mb-1">NET PAY</div>
                     <div className="grid grid-cols-2 gap-4">
                         <div className="font-bold">Gross Earnings</div>
                         <div className="text-right">₹{payslipModelData?.salary_details?.total_gross_salary}</div>
                         <div className="font-bold">Total Deductions</div>
-                        <div className="text-right">(-) ₹{payslipModelData?.salary_details?.total_deduction}</div>
+                        <div className="text-right">(-) ₹{(
+                            Number(payslipModelData?.salary_details?.transport_or_others) +
+                            Number(payslipModelData?.salary_details?.employee_pf) +
+                            Number(payslipModelData?.salary_details?.tds) +
+                            Number(payslipModelData?.salary_details?.employee_esi)+
+                             Number(payslipModelData?.salary_details?.loan_advance)
+                        ).toFixed(2)}</div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 mt-3 border-t border-gray-300 pt-2 font-bold">
+                    <div className="grid grid-cols-2 gap-4 mt-1 border-t border-gray-300 pt-1 font-bold">
                         <div>Total Net Payable</div>
-                        <div className="text-right">₹{payslipModelData?.salary_details?.net_pay}</div>
+                        <div className="text-right">₹{(Number(payslipModelData?.salary_details?.total_gross_salary) - (
+                            Number(payslipModelData?.salary_details?.transport_or_others) +
+                            Number(payslipModelData?.salary_details?.employee_pf) +
+                            Number(payslipModelData?.salary_details?.tds) +
+                            Number(payslipModelData?.salary_details?.employee_esi)+
+                            Number(payslipModelData?.salary_details?.loan_advance)
+                        ).toFixed(2))}</div>
                     </div>
                 </div>
                 {/* Footer Note */}
-                <div className="bg-gray-100 text-center p-4 text-sm font-medium">
-                    Total Net Payable <span className="font-bold text-black">₹{payslipModelData?.salary_details?.net_pay}</span>
-                    (Indian Rupee Eighty-Seven Thousand Three Hundred Only)
+                <div className="bg-gray-100 text-center p-2 text-sm font-medium">
+                    Total Net Payable <span className="font-bold text-black">₹{(Number(payslipModelData?.salary_details?.total_gross_salary) - (
+                            Number(payslipModelData?.salary_details?.transport_or_others) +
+                            Number(payslipModelData?.salary_details?.employee_pf) +
+                            Number(payslipModelData?.salary_details?.tds) +
+                            Number(payslipModelData?.salary_details?.employee_esi)+
+                            Number(payslipModelData?.salary_details?.loan_advance)
+                        ).toFixed(2))} </span>
+                        Inr {toTitleCase(toWords(
+                        Number(
+                            (
+                            Number(payslipModelData?.salary_details?.total_gross_salary) -
+                            (
+                                Number(payslipModelData?.salary_details?.transport_or_others) +
+                                Number(payslipModelData?.salary_details?.employee_pf) +
+                                Number(payslipModelData?.salary_details?.tds) +
+                                Number(payslipModelData?.salary_details?.employee_esi) +
+                                Number(payslipModelData?.salary_details?.loan_advance)
+                            )
+                            ).toFixed(0) // Round off before converting to words
+                        )
+                        ))} Only
+
                     <div className="text-xs font-normal mt-1 italic">
                         **Total Net Payable = Gross Earnings - Total Deductions
                     </div>
