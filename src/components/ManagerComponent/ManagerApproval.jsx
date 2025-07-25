@@ -119,7 +119,7 @@ const ManagerApproval = () => {
       <tr key={index} className="border-t">
         <td className="p-5 text-center">{item?.employeeInfo?.employeeName}</td>
         <td className="p-5 text-center">
-          {item?.dateTime?.split(" ")[0] || item?.appliedDate?.split(" ")[0]}
+          {item?.compOffDate}
         </td>
         {!isCompOff && (
           <>
@@ -403,7 +403,7 @@ const ManagerApproval = () => {
                   <thead className="bg-gray-100">
                     <tr>
                       <th className="p-3 font-semibold text-center">Employee Name</th>
-                      <th className="p-3 font-semibold text-center">Request Date</th>
+                      <th className="p-3 font-semibold text-center">Requested Date</th>
                       <th className="p-3 font-semibold text-center">Reason</th>
                       <th className="p-3 font-semibold text-center">Total Days</th>
                       <th className="p-3 font-semibold text-center">Action</th>

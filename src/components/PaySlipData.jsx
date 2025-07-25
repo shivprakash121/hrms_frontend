@@ -38,7 +38,7 @@ function PaySlipData({ setPayslipModel, payslipModelData }) {
                     Pay Slip - Month: May 2025
                 </h2>
                 <p className="text-center mb-4">
-                    A1, BLOCK A, SECTOR 83 NOIDA, UTTAR PRADESHwwww 201301
+                    A1, BLOCK A, SECTOR 83 NOIDA, UTTAR PRADESH 201301
                 </p>
 
                 {/* Employee Basic Details */}

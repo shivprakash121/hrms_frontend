@@ -87,14 +87,14 @@ const EmployeePayroleTable = () => {
           </div>
 
           {/* Table */}
-          <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
-            <thead>
+          <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md text-sm">
+            <thead className="bg-gray-100">
               <tr>
-                <th className="py-2 px-4 text-left text-gray-600 font-bold">Employee Name</th>
-                <th className="py-2 px-4 text-left text-gray-600 font-bold">Employee Code</th>
+                <th className="pl-6 py-2 px-4 text-left text-gray-600 font-bold">Employee Name</th>
+                <th className="py-2 px-4 text-left text-gray-600 font-bold">Employee Id</th>
                 <th className="py-2 px-4 text-left text-gray-600 font-bold">Designation</th>
                 <th className="py-2 px-4 text-left text-gray-600 font-bold">Month</th>
-                <th className="py-2 px-4 text-left text-gray-600 font-bold">EL</th>
+                {/* <th className="py-2 px-4 text-left text-gray-600 font-bold">EL</th>
                 <th className="py-2 px-4 text-left text-gray-600 font-bold">D-EL</th>
                 <th className="py-2 px-4 text-left text-gray-600 font-bold">CL</th>
                 <th className="py-2 px-4 text-left text-gray-600 font-bold">D-CL</th>
@@ -102,7 +102,7 @@ const EmployeePayroleTable = () => {
                 <th className="py-2 px-4 text-left text-gray-600 font-bold">D-ML</th>
                 <th className="py-2 px-4 text-left text-gray-600 font-bold">Reg</th>
                 <th className="py-2 px-4 text-left text-gray-600 font-bold">SL</th>
-                <th className="py-2 px-4 text-left text-gray-600 font-bold">HD</th>
+                <th className="py-2 px-4 text-left text-gray-600 font-bold">HD</th> */}
                 <th className="py-2 px-4 text-left text-gray-600 font-bold">Absent</th>
                 <th className="py-2 px-4 text-left text-gray-600 font-bold">Work Day</th>
                 <th className="py-2 px-4 text-left text-gray-600 font-bold">SD</th>
@@ -112,11 +112,12 @@ const EmployeePayroleTable = () => {
             <tbody>
               {filteredData?.map((employee, index) => (
                 <tr key={index} className="border-t hover:bg-gray-100">
-                  <td className="py-4 px-3">{employee?.employee_basic_details?.employee_name}</td>
-                  <td className="py-4 px-3">{employee?.employee_basic_details?.employee_code}</td>
+                  <td className="pl-8 py-4 px-3">{employee?.employee_basic_details?.employee_name}</td>
+                  <td className="pl-6 py-4 px-3">{employee?.employee_basic_details?.employee_code}</td>
+                  
                   <td className="py-4 px-3">{employee?.employee_basic_details?.designation}</td>
                   <td className="py-4 px-3">{employee.pay_slip_month}</td>
-                  <td className="py-4 px-3">{employee.leave_summary?.EL}</td>
+                  {/* <td className="py-4 px-3">{employee.leave_summary?.EL}</td>
                   <td className="py-4 px-3">{employee.leave_summary?.D_EL}</td>
                   <td className="py-4 px-3">{employee.leave_summary?.CL}</td>
                   <td className="py-4 px-3">{employee.leave_summary?.D_CL}</td>
@@ -124,7 +125,7 @@ const EmployeePayroleTable = () => {
                   <td className="py-4 px-3">{employee.leave_summary?.D_ML}</td>
                   <td className="py-4 px-3">{employee?.leave_summary?.regularisation}</td>
                   <td className="py-4 px-3">{employee?.leave_summary?.shortLeave}</td>
-                  <td className="py-4 px-3">{employee.leave_summary?.halfDay}</td>
+                  <td className="py-4 px-3">{employee.leave_summary?.halfDay}</td> */}
                   <td className="py-4 px-3">{employee.leave_summary?.absent}</td>
                   <td className="py-4 px-3">{employee.leave_summary?.workedDays}</td>
                   <td className="py-4 px-3">{employee.leave_summary?.SD}</td>
