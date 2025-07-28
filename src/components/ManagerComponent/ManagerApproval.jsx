@@ -169,7 +169,7 @@ const ManagerApproval = () => {
         </td>
       </tr>
     ));
-
+  
   const renderRevertTableRow = (data) => {
     // Filter data where revertLeave.revertedDays exists and is not an empty string
     const filteredData = data?.filter(item => item?.revertLeave?.revertedDays);
